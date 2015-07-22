@@ -19,41 +19,12 @@ It uses the powerful Selenium WebDriver API to perform commands and assertions o
 > - head and headless browser testing (phantom.js, chrome)
 
 
-### Quick Start
-
-1. Intstall vagrant and virutalbox.
-2. Install vagrant plugins:
-```bash
-vagrant plugin install vagrant-librarian-chef
-vagrant plugin install vagrant-omnibus
-```
-
-3. copy project and vm repositories
-```bash
-git clone git@github.private.linksynergy.com:slava-hatnuke/plus.garden.git
-cd advdash-test
-```
-
-3. Tune the Vagrantfile (optional).
-4. Tune the chef configuration (optional).
-5. Start vagrant:
-```bash
-./ssh-agent.sh
-vagrant up
-```
-6. testing
-
-```bash
-vagrant ssh
-cd project/garden/
-./garden.js test
-```
-
-
 Commandline runner cucumber tests
 -------------
 Show available options
 ```bash
+node garden.js
+or
 ./garden.js
 ```
 Run all tests
