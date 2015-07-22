@@ -2,11 +2,23 @@
   "name": "plus.garden",
   "version": "0.0.8",
   "main": "garden.js",
-  "description": "Garden",
+  "license": "MIT",
+  "repository": "linkshare/plus.garden",
+  "description": "Node.js based End-to-End (E2E) testing solution for browser based apps and websites",
   "bin": {
     "garden.js": "garden.js",
     "plus.garden": "garden.js"
   },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "keywords": [
+    "garden",
+    "WebDriver",
+    "Cucumber",
+    "framework",
+    "phantomjs"
+  ],
   "scripts": {
     "start": "node garden.js",
     "test": "./garden.js unit && ./garden.js test && ./garden.js fixtures.load && ./garden.js fixtures.drop"
