@@ -1,0 +1,78 @@
+{
+
+    "host": "localhost",
+
+    "logger": {
+        "path": "logs/garden.log",
+        "level": "info"
+    },
+
+    "webdirver": {
+
+        "server_host": "localhost",
+        "server_port": 4444,
+
+        "proxy_port": 8888,
+        "proxy_host": "localhost",
+
+        "proxy_remap_hosts": {
+            "localhos":"127.0.0.1"
+        },
+
+        "keep_alive": true,
+
+        "browser": "phantomjs",
+        "profile_name": "default",
+
+        "screen_resolution":"1280x1024",
+        "waitTimeout": 7000,
+
+        "profile": {
+            "default": {},
+            "remote": {
+                "browser": "chrome",
+                "server_host": "192.168.80.1",
+                "proxy_host": "192.168.80.101"
+            }
+        },
+        "capabilities": {
+            "phantomjs": {
+                "browserName": "phantomjs",
+                "phantomjs.cli.args": ["--ignore-ssl-errors=yes"]
+            },
+            "chrome": {
+                "browserName": "chrome",
+                "acceptSslCerts": true,
+                "chromeOptions": {
+                    "args": ["--test-type"]
+                }
+            }
+        }
+    },
+
+    "mongodb_uri": "mongodb://localhost:27017/garden_test",
+
+    "fixtures": {
+        "mongodb_uri": {
+            "user": [
+                "fixtures/user.json"
+            ]
+        }
+    },
+
+    "coverage_url": "/dev/coverage",
+
+    "load": {
+        "config": {
+            "host": "http://localhost:3010"
+        },
+        "tests": {
+            "transactions": {
+                "endpoint": "/posts",
+                "concurrency": 10,
+                "requests": 1000,
+                "duration": 20000
+            }
+        }
+    }
+}

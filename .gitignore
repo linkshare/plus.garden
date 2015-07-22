@@ -1,0 +1,9 @@
+.idea
+*.log
+/config/parameters.json
+/node_modules
+/app/logs/
+!/app/logs/.gitkeep
+/coverage/
+!/coverage/.gitkeep
+/parameters.json

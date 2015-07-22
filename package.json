@@ -1,0 +1,41 @@
+{
+  "name": "plus.garden",
+  "version": "0.0.8",
+  "main": "garden.js",
+  "description": "Garden",
+  "bin": {
+    "garden.js": "garden.js",
+    "plus.garden": "garden.js"
+  },
+  "scripts": {
+    "start": "node garden.js",
+    "test": "./garden.js unit && ./garden.js test && ./garden.js fixtures.load && ./garden.js fixtures.drop"
+  },
+  "dependencies": {
+    "mongodb": "1.3.23",
+    "wait.for": "0.6.3",
+    "winston": "0.7.2",
+    "underscore": "1.6.0",
+    "define-class": "0.0.2",
+    "commander": "2.1.0",
+    "cucumber": "0.3.3",
+    "request": "2.34.0",
+    "mocha": "1.17.1",
+    "sinon": "1.8.2",
+    "istanbul": "0.2.6",
+    "fs-extra": "0.8.1",
+    "moment": "2.5.1",
+    "loadtest": "0.2.10",
+    "merge": "1.1.2",
+    "js-yaml": "3.0.2",
+    "browsermob-proxy": "1.0.8",
+    "phantomjs": "1.9.13",
+    "selenium-webdriver": "2.42.1",
+    "chainit": "~2.1.1",
+    "async": "~0.9.0",
+    "chai": "~1.9.1",
+    "plus.application": "~1.0.7",
+    "json-diff": "~0.3.1",
+    "sizzle": "~2.2.0"
+  }
+}
