@@ -18,6 +18,27 @@ It uses the powerful Selenium WebDriver API to perform commands and assertions o
 > - automatic WebDriver servers runner/stopper
 > - head and headless browser testing (phantom.js, chrome)
 
+Getting started
+-------------
+Make a new directory, and `cd` into it:
+```
+mkdir my-new-project && cd $_
+```
+
+Run `npm init`
+```
+npm init
+```
+
+Install garden as dependency
+```
+npm install plus.garden --save
+```
+
+Inint directory structure
+```
+node node_modules/plus.garden/garden.js init
+```
 
 Commandline runner cucumber tests
 -------------

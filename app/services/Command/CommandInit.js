@@ -12,7 +12,8 @@ var CommandInit = function (config, logger) {
         'tests',
         'config.json',
         'parameters.json.dist',
-        'container.js'
+        'container.js',
+        'garden.js'
     ];
 
     this.run = function () {
@@ -27,7 +28,14 @@ var CommandInit = function (config, logger) {
 
             if (!fs.existsSync(dist) && fs.existsSync(src)) {
                 logger.info('init: %s', name);
-                wait.forMethod(fs, 'copy', src, dist);
+                //create entrypoint for run garden
+                if (name == 'garden.js') {
+                    wait.forMethod(fs, 'copy', srcDir + '/garden-entrypoint.js', dist);
+                } else {
+                    wait.forMethod(fs, 'copy', src, dist);
+                }
+
+
             }
             else {
                 logger.info('skip: %s', name);
