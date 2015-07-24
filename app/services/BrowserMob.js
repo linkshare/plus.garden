@@ -6,7 +6,7 @@ var os = require('os');
 
 var Browsermob = function (config) {
     this.lockFile = os.tmpdir() + '/BrowsermobLockFile';
-    this.proxyPath = config.get('garden_dir') + '/app/bin/browsermob-proxy-2.0-beta-10-SNAPSHOT-standalone.jar';
+    this.proxyPath = require('browsermob-standalone')();
     this.keepAlive = config.get('webdirver:keep_alive');
     this.proxyPort = config.get('webdirver:proxy_port');
 

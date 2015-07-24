@@ -1,10 +1,10 @@
 {
   "name": "plus.garden",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": "garden.js",
   "license": "MIT",
   "repository": "linkshare/plus.garden",
-  "description": "Node.js based End-to-End (E2E) testing solution for browser based apps and websites",
+  "description": "BDD testing framework for browser based apps and websites",
   "bin": {
     "garden.js": "garden.js",
     "plus.garden": "garden.js"
@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "start": "node garden.js",
-    "test": "./garden.js unit && ./garden.js test && ./garden.js fixtures.load && ./garden.js fixtures.drop"
+    "test": "./garden.js test"
   },
   "dependencies": {
     "mongodb": "1.3.23",
@@ -48,6 +48,7 @@
     "chai": "~1.9.1",
     "plus.application": "~1.0.7",
     "json-diff": "~0.3.1",
-    "sizzle": "~2.2.0"
+    "sizzle": "~2.2.0",
+    "browsermob-standalone": "2.0.10"
   }
 }
