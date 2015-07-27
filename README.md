@@ -78,25 +78,23 @@ browser:
 
 Debug in real browser
 -------------
-###vagrant
-before start test you should run selenium server on host machine
-there are scripts for starting WbDriver servers
-in garden/node_modules/plus.garden/app/bin directory
-choose your version and run in another terminal
-```bash
-webdriver-osx.sh
-webdriver-linux64.sh
-webdriver-linux32.sh
-```
-right now run test with parameter
-```bash
-./garden.js test -p remote  (in vagrant box)
-```
-
 ###local testing
 just change browser for testing
 ```bash
 ./garden.js test -b chrome  (--browser)
+```
+
+
+###remote
+before start test you should run selenium server on machine where browser is
+run on machine where browser is
+```bash
+./garden.js webdriver.start
+```
+
+right now run test with parameter (run on machine where tests suites are)
+```bash
+./garden.js test -p remote
 ```
 
 

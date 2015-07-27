@@ -6,9 +6,9 @@ var os = require('os');
 
 var Selenium = function (config) {
     this.lockFile = os.tmpdir() + '/SeleniumLockFile';
-    this.seleniumPath = config.get('garden_dir') + '/app/bin/selenium-server-standalone-2.43.1.jar';
+    this.seleniumPath = require('plus.garden.selenium-standalone').getServerPath();
     this.phantomjsPath = config.get('garden_dir') + '/node_modules/phantomjs/bin';
-    this.chromePath = config.get('garden_dir') + '/lib';
+    this.chromePath = require('plus.garden.selenium-standalone').getChromeDriverPath();
 
     this.env = process.env;
     this.env.PATH += ':' + this.phantomjsPath;
