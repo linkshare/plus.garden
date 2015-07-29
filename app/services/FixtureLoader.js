@@ -1,18 +1,19 @@
-var FixtureLoader = function (container) {
+var FixtureLoader = function (container, logger) {
 
-    function getLoaders() {
-        return container.find(['garden.js', 'fixtures', 'loader']);
+    var loaders = container.find(['garden.js', 'fixtures', 'loader']);
+
+    if (loaders.length == 0) {
+        logger.warn('fixture loader module not found');
     }
 
     this.load = function () {
-        getLoaders().forEach(function (loader) {
+        loaders.forEach(function (loader) {
             loader.load();
         });
-
     }
 
     this.drop = function () {
-        getLoaders().forEach(function (loader) {
+        loaders.forEach(function (loader) {
             loader.drop();
         });
     }
@@ -25,4 +26,4 @@ var FixtureLoader = function (container) {
 }
 
 module.exports = FixtureLoader;
-module.exports.$inject = ['container'];
+module.exports.$inject = ['container', 'Logger'];

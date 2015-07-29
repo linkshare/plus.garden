@@ -4,12 +4,9 @@ var CommandInit = function (config, logger) {
     var fs = require('fs-extra');
 
     var dirs = [
-        'coverage',
         'features',
         'fixtures',
         'logs',
-        'smoke',
-        'tests',
         'config.json',
         'parameters.json.dist',
         'container.js',
@@ -31,6 +28,7 @@ var CommandInit = function (config, logger) {
                 //create entrypoint for run garden
                 if (name == 'garden.js') {
                     wait.forMethod(fs, 'copy', srcDir + '/garden-entrypoint.js', dist);
+                    fs.chmodSync(dist, '755');
                 } else {
                     wait.forMethod(fs, 'copy', src, dist);
                 }

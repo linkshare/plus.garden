@@ -9,8 +9,6 @@ or
 Run all tests
 ```bash
 ./garden.js test
-or
-node garden.js test
 ```
 You may specify the features to run:
 ```bash
@@ -54,4 +52,3 @@ right now run test with parameter (run on machine where tests suites are)
 ```bash
 ./garden.js test -p remote
 ```
-

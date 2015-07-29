@@ -7,7 +7,7 @@
         "level": "info"
     },
 
-    "webdirver": {
+    "webdriver": {
 
         "server_host": "localhost",
         "server_port": 4444,

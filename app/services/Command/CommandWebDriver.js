@@ -3,12 +3,12 @@ var CommandWebDriver = function (config, logger, browsermob, selenium) {
     var wait = require('wait.for');
 
     this.start = function (action) {
-        if (config.get('webdirver:keep_alive')) {
+        if (config.get('webdriver:keep_alive')) {
             wait.forMethod(browsermob, "start");
             wait.forMethod(selenium, "start");
             logger.info('servers is started');
         } else {
-            logger.error('webdirver:keep_alive parameter should be "true"');
+            logger.error('webdriver:keep_alive parameter should be "true"');
         }
     };
 

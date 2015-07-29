@@ -1,7 +1,7 @@
 var browsermobProxy = require('browsermob-proxy').Proxy;
 
 var Proxy = function (config) {
-    this.proxyPort = config.get('webdirver:proxy_port');
+    this.proxyPort = config.get('webdriver:proxy_port');
     this.proxy = new browsermobProxy({ port: this.proxyPort });
 
 }

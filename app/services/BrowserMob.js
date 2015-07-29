@@ -7,8 +7,8 @@ var os = require('os');
 var Browsermob = function (config) {
     this.lockFile = os.tmpdir() + '/BrowsermobLockFile';
     this.proxyPath = require('browsermob-standalone')();
-    this.keepAlive = config.get('webdirver:keep_alive');
-    this.proxyPort = config.get('webdirver:proxy_port');
+    this.keepAlive = config.get('webdriver:keep_alive');
+    this.proxyPort = config.get('webdriver:proxy_port');
 
     console.log('Ensuring working servers...');
     this.hasRun = false;

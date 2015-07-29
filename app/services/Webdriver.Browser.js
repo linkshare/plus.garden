@@ -55,7 +55,7 @@ var Browser = function (config, Browsermob, Selenium, Proxy, logger, options) {
     }
 
 
-    var remapHosts = config.get('webdirver:proxy_remap_hosts');
+    var remapHosts = config.get('webdriver:proxy_remap_hosts');
 
     this.before = function (next) {
 
@@ -85,16 +85,16 @@ var Browser = function (config, Browsermob, Selenium, Proxy, logger, options) {
 
 
     this.getParameter = function (name) {
-        var profile = config.get('webdirver:profile_name');
-        var parameter = config.get('webdirver:profile:' + profile + ':' + name);
+        var profile = config.get('webdriver:profile_name');
+        var parameter = config.get('webdriver:profile:' + profile + ':' + name);
 
-        return parameter || config.get('webdirver:' + name);
+        return parameter || config.get('webdriver:' + name);
     }
 
     this.setParameter = function (name, value) {
-        var profile = config.get('webdirver:profile_name');
-        config.set('webdirver:profile:' + profile + ':' + name, value);
-        config.set('webdirver:' + name, value);
+        var profile = config.get('webdriver:profile_name');
+        config.set('webdriver:profile:' + profile + ':' + name, value);
+        config.set('webdriver:' + name, value);
     }
 
     this.init = function () {

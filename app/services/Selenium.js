@@ -15,7 +15,7 @@ var Selenium = function (config) {
     this.env.PATH += ':' + this.chromePath;
 
     this.hasRun = false;
-    this.keepAlive = config.get('webdirver:keep_alive');
+    this.keepAlive = config.get('webdriver:keep_alive');
 
     process.on('exit', function () {
         if (this.selenium) {
