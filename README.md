@@ -1,5 +1,9 @@
 Plus.garden!
 ===================
+[API Reference](./docs/API-reference.md) |
+[CLI](./docs/Command-line-usage.md) |
+[CSS Selectors](./docs/css-selectors.md) |
+[Features and Definitions](./docs/features-definitions.md)
 
 Garden is a BDD testing framework for browser based apps and websites.
 
