@@ -12,7 +12,7 @@ Run all tests
 ```
 You may specify the features to run:
 ```bash
-./garden.js test features/offersGrid.feature
+./garden.js test features/Health.feature
 ```
 You may use tags to run:
 ```bash
