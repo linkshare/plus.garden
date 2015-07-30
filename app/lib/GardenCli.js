@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 
-var GardenCli = function (options) {
+/* =================================================================================
+ * @author Vladimir Polyakov
+ * @author Slava Hatnuke
+ * =================================================================================
+ * Copyright (c) 2015 Rakuten Marketing
+ * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
+ * ============================================================================== */
+
+ var GardenCli = function (options) {
 
     var merge = require('merge');
     var path = require('path');

@@ -1,4 +1,11 @@
-var LoggerInitializer = function (config, options) {
+/* =================================================================================
+ * @author Slava Hatnuke
+ * =================================================================================
+ * Copyright (c) 2015 Rakuten Marketing
+ * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
+ * ============================================================================== */
+
+ var LoggerInitializer = function (config, options) {
 
     if (options.get('debug')) {
         config.set('logger:level', 'debug');

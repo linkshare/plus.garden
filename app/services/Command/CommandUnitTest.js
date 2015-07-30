@@ -1,5 +1,12 @@
+/* =================================================================================
+ * @author Vladimir Polyakov
+ * @author Slava Hatnuke
+ * =================================================================================
+ * Copyright (c) 2015 Rakuten Marketing
+ * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
+ * ============================================================================== */
 
-var CommandUnitTest = function (command, commander, logger, commandCoverageMerge) {
+ var CommandUnitTest = function (command, commander, logger, commandCoverageMerge) {
 
     var wait = require('wait.for');
 
