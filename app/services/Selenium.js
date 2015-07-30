@@ -1,4 +1,11 @@
-var spawn = require('child_process').spawn;
+/* =================================================================================
+ * @author Vladimir Polyakov
+ * =================================================================================
+ * Copyright (c) 2015 Rakuten Marketing
+ * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
+ * ============================================================================== */
+
+ var spawn = require('child_process').spawn;
 var path = require('path');
 var fs = require('fs');
 var http = require("http");

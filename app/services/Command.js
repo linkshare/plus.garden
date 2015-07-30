@@ -1,4 +1,11 @@
-var Command = function (config, commander) {
+/* =================================================================================
+ * @author Slava Hatnuke
+ * =================================================================================
+ * Copyright (c) 2015 Rakuten Marketing
+ * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
+ * ============================================================================== */
+
+ var Command = function (config, commander) {
 
     var CommandClass = require('../lib/Command');
 

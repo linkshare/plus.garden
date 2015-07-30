@@ -1,4 +1,11 @@
-var Options = function (config, commander) {
+/* =================================================================================
+ * @author Slava Hatnuke
+ * =================================================================================
+ * Copyright (c) 2015 Rakuten Marketing
+ * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
+ * ============================================================================== */
+
+ var Options = function (config, commander) {
 
     var options = commander ? commander : config.get('GARDEN_CLI') || {};
 

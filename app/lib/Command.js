@@ -1,4 +1,12 @@
-var child_process = require('child_process');
+/* =================================================================================
+ * @author Vladimir Polyakov
+ * @author Slava Hatnuke
+ * =================================================================================
+ * Copyright (c) 2015 Rakuten Marketing
+ * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
+ * ============================================================================== */
+
+ var child_process = require('child_process');
 var exec = child_process.exec;
 
 var Command = function (dir, env, replacement, commander) {
