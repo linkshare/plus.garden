@@ -91,7 +91,7 @@ Selenium.prototype = {
                 fs.writeFileSync(this.lockFile, selenium.pid);
 
                 selenium.stderr.on('data', function (data) {
-                    if (data.toString().indexOf('org.openqa.jetty.jetty.Server') > -1) {
+                    if (data.toString().indexOf('Selenium Server is up and running') > -1) {
                         console.log('selenium server started');
 
                         this.hasRun = true;
@@ -110,7 +110,7 @@ Selenium.prototype = {
             });
 
         this.selenium.stderr.on('data', function (data) {
-            if (data.toString().indexOf('org.openqa.jetty.jetty.Server') > -1) {
+            if (data.toString().indexOf('Selenium Server is up and running') > -1) {
                 console.log('selenium server started');
 
                 this.hasRun = true;

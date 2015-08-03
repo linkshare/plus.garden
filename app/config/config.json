@@ -46,6 +46,9 @@
                 "chromeOptions": {
                     "args": ["--test-type"]
                 }
+            },
+            "firefox": {
+                "browserName": "firefox"
             }
         }
     },
