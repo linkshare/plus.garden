@@ -16,7 +16,7 @@
         "proxy_host": "localhost",
 
         "proxy_remap_hosts": {
-            "localhos":"127.0.0.1"
+            "localhost":"127.0.0.1"
         },
 
         "keep_alive": true,
