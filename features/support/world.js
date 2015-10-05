@@ -3,6 +3,8 @@ var garden = new Garden().init();
 
 var World = function World(callback) {
 
+    this.garden = garden;
+    
     this.config = garden.get('config');
 
     garden.get('Webdriver.Browser').create(function (browserService) {
