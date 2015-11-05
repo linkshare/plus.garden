@@ -6,7 +6,7 @@
  * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
  * ============================================================================== */
 
- var Browser = function (config, Browsermob, Selenium, Proxy, logger, options) {
+ var Browser = function (config, Browsermob, Selenium, Proxy, logger, options, EnvironmentService) {
 
     var self = this;
 
@@ -51,13 +51,20 @@
 
     this.then = function (next) {
 
-        Browsermob.start(function () {
-            Selenium.start(function () {
-                self.proxy.connectToProxy(function () {
-                    self.connectToBrowser(function () {
-                        next(self);
-                    });
-                })
+        EnvironmentService.hasBin('java', function (err, exists) {
+
+            if (!exists) {
+                logger.error('java was not found');
+            }
+
+            Browsermob.start(function () {
+                Selenium.start(function () {
+                    self.proxy.connectToProxy(function () {
+                        self.connectToBrowser(function () {
+                            next(self);
+                        });
+                    })
+                });
             });
         });
     }
@@ -121,13 +128,13 @@
 
 }
 
-var BrowserFactory = function (config, Browsermob, Selenium, Proxy, logger, options) {
+var BrowserFactory = function (config, Browsermob, Selenium, Proxy, logger, options, EnvironmentService) {
     return {
         create: function (next) {
-            new Browser(config, Browsermob, Selenium, Proxy, logger, options).then(next);
+            new Browser(config, Browsermob, Selenium, Proxy, logger, options, EnvironmentService).then(next);
         }
     }
 }
 
 module.exports = BrowserFactory;
-module.exports.$inject = ['config', 'Browsermob', 'Selenium', 'Proxy', 'Logger', 'Options'];
+module.exports.$inject = ['config', 'Browsermob', 'Selenium', 'Proxy', 'Logger', 'Options', 'EnvironmentService'];

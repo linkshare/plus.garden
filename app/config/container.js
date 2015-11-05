@@ -33,6 +33,7 @@ module.exports = function (container) {
     container.register('Webdriver.Browser', require('../services/Webdriver.Browser'));
 
     container.register('LoggerInitializer', require('../services/LoggerInitializer'));
+    container.register('EnvironmentService', require('../services/EnvironmentService'));
 
 }
 
