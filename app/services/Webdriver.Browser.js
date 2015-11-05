@@ -6,7 +6,7 @@
  * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
  * ============================================================================== */
 
-var Browser = function (config, Browsermob, Selenium, Proxy, logger, options, EnvironmentService) {
+var Browser = function (config, BrowserConfig, Browsermob, Selenium, Proxy, logger, options, EnvironmentService) {
 
     var self = this;
 
@@ -52,39 +52,13 @@ var Browser = function (config, Browsermob, Selenium, Proxy, logger, options, En
     };
 
     this.testEnvironemnt = function (next) {
-        var tests = [];
+        EnvironmentService.test(['java', 'phantomjs'], function (err) {
+            if (err) {
+                logger.error('You have problems with test environment please take a look on errors');
+            }
 
-        tests.push(function (next) {
-            EnvironmentService.hasBin('java', function (err, exists) {
-
-                if (!exists) {
-                    logger.error('java was not found');
-                    next(new Error('java was not found'));
-                } else {
-                    next();
-                }
-            });
+            next();
         });
-
-        var browser = this.getParameter('browser');
-
-        if (browser == 'phantomjs') {
-            var phantomBin = Selenium.phantomjsPath + '/phantomjs ';
-            var cmd = phantomBin + config.get('garden_dir') + '/app/environment/tests/phantom.js';
-
-            tests.push(function (next) {
-                EnvironmentService.testBin(cmd, /phantomjs_ok/ig, function (err, ok) {
-                    if (!ok) {
-                        logger.error('Phantomjs works incorrect');
-                        next(new Error('Phantomjs works incorrect'));
-                    } else {
-                        next();
-                    }
-                });
-            });
-        }
-
-        async.parallel(tests, next);
     };
 
     this.then = function (next) {
@@ -107,8 +81,6 @@ var Browser = function (config, Browsermob, Selenium, Proxy, logger, options, En
     };
 
 
-    var remapHosts = config.get('webdriver:proxy_remap_hosts');
-
     this.before = function (next) {
 
         var screenResolution = self.getParameter('screen_resolution');
@@ -126,6 +98,8 @@ var Browser = function (config, Browsermob, Selenium, Proxy, logger, options, En
     }
 
     this.proxyStartCollectInfo = function (captureHeaders, captureContent, captureBinaryContent, next) {
+        var remapHosts = self.getParameter('proxy_remap_hosts');
+
         this.proxy.startCollectInfo(captureHeaders, captureContent, captureBinaryContent, function () {
             this.proxy.remapHosts(remapHosts, next);
         }.bind(this));
@@ -137,16 +111,11 @@ var Browser = function (config, Browsermob, Selenium, Proxy, logger, options, En
 
 
     this.getParameter = function (name) {
-        var profile = config.get('webdriver:profile_name');
-        var parameter = config.get('webdriver:profile:' + profile + ':' + name);
-
-        return parameter || config.get('webdriver:' + name);
+        return BrowserConfig.getParameter(name);
     }
 
     this.setParameter = function (name, value) {
-        var profile = config.get('webdriver:profile_name');
-        config.set('webdriver:profile:' + profile + ':' + name, value);
-        config.set('webdriver:' + name, value);
+        return BrowserConfig.setParameter(name, value);
     }
 
     this.init = function () {
@@ -165,13 +134,13 @@ var Browser = function (config, Browsermob, Selenium, Proxy, logger, options, En
 
 }
 
-var BrowserFactory = function (config, Browsermob, Selenium, Proxy, logger, options, EnvironmentService) {
+var BrowserFactory = function (config, BrowserConfig, Browsermob, Selenium, Proxy, logger, options, EnvironmentService) {
     return {
         create: function (next) {
-            new Browser(config, Browsermob, Selenium, Proxy, logger, options, EnvironmentService).then(next);
+            new Browser(config, BrowserConfig, Browsermob, Selenium, Proxy, logger, options, EnvironmentService).then(next);
         }
     }
-}
+};
 
 module.exports = BrowserFactory;
-module.exports.$inject = ['config', 'Browsermob', 'Selenium', 'Proxy', 'Logger', 'Options', 'EnvironmentService'];
+module.exports.$inject = ['config', 'Webdriver.Browser.Config', 'Browsermob', 'Selenium', 'Proxy', 'Logger', 'Options', 'EnvironmentService'];
