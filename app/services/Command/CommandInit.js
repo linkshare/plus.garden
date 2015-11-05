@@ -21,10 +21,12 @@
         'garden.js'
     ];
 
-    this.run = function () {
+    this.run = function (dir) {
 
         var srcDir = config.get('garden_dir');
         var distDir = config.get('root_dir');
+
+        distDir = dir || distDir;
 
         dirs.forEach(function (name) {
 
