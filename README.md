@@ -30,7 +30,7 @@ It's built on Node.js, cucumber.js, Selenium WebDriver API.
 - `cd xxx-project` # go inside
 - `plus.garden test` # run smoke/healthy tests, it executes next scenario:
 
-```
+```gherkin
   Scenario: I want to see good health
     Given  I am on external host "https://twitter.com/"
     Then   status code should be 200
