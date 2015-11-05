@@ -7,3 +7,4 @@
 /coverage/
 !/coverage/.gitkeep
 /parameters.json
+.screen.png

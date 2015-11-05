@@ -6,9 +6,11 @@
  * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
  * ============================================================================== */
 
- var Browser = function (config, Browsermob, Selenium, Proxy, logger, options, EnvironmentService) {
+var Browser = function (config, Browsermob, Selenium, Proxy, logger, options, EnvironmentService) {
 
     var self = this;
+
+    var async = require('async');
 
     this.config = config;
     var host = this.config.get('host');
@@ -49,13 +51,48 @@
         callback();
     };
 
+    this.testEnvironemnt = function (next) {
+        var tests = [];
+
+        tests.push(function (next) {
+            EnvironmentService.hasBin('java', function (err, exists) {
+
+                if (!exists) {
+                    logger.error('java was not found');
+                    next(new Error('java was not found'));
+                } else {
+                    next();
+                }
+            });
+        });
+
+        var browser = this.getParameter('browser');
+
+        if (browser == 'phantomjs') {
+            var phantomBin = Selenium.phantomjsPath + '/phantomjs ';
+            var cmd = phantomBin + config.get('garden_dir') + '/app/environment/tests/phantom.js';
+
+            tests.push(function (next) {
+                EnvironmentService.testBin(cmd, /phantomjs_ok/ig, function (err, ok) {
+                    if (!ok) {
+                        logger.error('Phantomjs works incorrect');
+                        next(new Error('Phantomjs works incorrect'));
+                    } else {
+                        next();
+                    }
+                });
+            });
+        }
+
+        async.parallel(tests, next);
+    };
+
     this.then = function (next) {
-
-        EnvironmentService.hasBin('java', function (err, exists) {
-
-            if (!exists) {
-                logger.error('java was not found');
+        this.testEnvironemnt(function (err) {
+            if (err) {
+                logger.error('You have problems with test environment please take a look on errors');
             }
+
 
             Browsermob.start(function () {
                 Selenium.start(function () {
@@ -67,7 +104,7 @@
                 });
             });
         });
-    }
+    };
 
 
     var remapHosts = config.get('webdriver:proxy_remap_hosts');
