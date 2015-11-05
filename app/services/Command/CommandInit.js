@@ -18,7 +18,8 @@
         'config.json',
         'parameters.json.dist',
         'container.js',
-        'garden.js'
+        'garden.js',
+        '.gitignore'
     ];
 
     this.run = function (dir) {
