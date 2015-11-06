@@ -6,9 +6,11 @@
  * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
  * ============================================================================== */
 
- var Browser = function (config, Browsermob, Selenium, Proxy, logger, options) {
+var Browser = function (config, BrowserConfig, Browsermob, Selenium, Proxy, logger, options, EnvironmentService) {
 
     var self = this;
+
+    var async = require('async');
 
     this.config = config;
     var host = this.config.get('host');
@@ -49,21 +51,35 @@
         callback();
     };
 
-    this.then = function (next) {
+    this.testEnvironemnt = function (next) {
+        EnvironmentService.test(['java', 'phantomjs'], function (err) {
+            if (err) {
+                logger.error('You have problems with test environment please take a look on errors');
+            }
 
-        Browsermob.start(function () {
-            Selenium.start(function () {
-                self.proxy.connectToProxy(function () {
-                    self.connectToBrowser(function () {
-                        next(self);
-                    });
-                })
+            next();
+        });
+    };
+
+    this.then = function (next) {
+        this.testEnvironemnt(function (err) {
+            if (err) {
+                logger.error('You have problems with test environment please take a look on errors');
+            }
+
+
+            Browsermob.start(function () {
+                Selenium.start(function () {
+                    self.proxy.connectToProxy(function () {
+                        self.connectToBrowser(function () {
+                            next(self);
+                        });
+                    })
+                });
             });
         });
-    }
+    };
 
-
-    var remapHosts = config.get('webdriver:proxy_remap_hosts');
 
     this.before = function (next) {
 
@@ -82,6 +98,8 @@
     }
 
     this.proxyStartCollectInfo = function (captureHeaders, captureContent, captureBinaryContent, next) {
+        var remapHosts = self.getParameter('proxy_remap_hosts');
+
         this.proxy.startCollectInfo(captureHeaders, captureContent, captureBinaryContent, function () {
             this.proxy.remapHosts(remapHosts, next);
         }.bind(this));
@@ -93,16 +111,11 @@
 
 
     this.getParameter = function (name) {
-        var profile = config.get('webdriver:profile_name');
-        var parameter = config.get('webdriver:profile:' + profile + ':' + name);
-
-        return parameter || config.get('webdriver:' + name);
+        return BrowserConfig.getParameter(name);
     }
 
     this.setParameter = function (name, value) {
-        var profile = config.get('webdriver:profile_name');
-        config.set('webdriver:profile:' + profile + ':' + name, value);
-        config.set('webdriver:' + name, value);
+        return BrowserConfig.setParameter(name, value);
     }
 
     this.init = function () {
@@ -121,13 +134,13 @@
 
 }
 
-var BrowserFactory = function (config, Browsermob, Selenium, Proxy, logger, options) {
+var BrowserFactory = function (config, BrowserConfig, Browsermob, Selenium, Proxy, logger, options, EnvironmentService) {
     return {
         create: function (next) {
-            new Browser(config, Browsermob, Selenium, Proxy, logger, options).then(next);
+            new Browser(config, BrowserConfig, Browsermob, Selenium, Proxy, logger, options, EnvironmentService).then(next);
         }
     }
-}
+};
 
 module.exports = BrowserFactory;
-module.exports.$inject = ['config', 'Browsermob', 'Selenium', 'Proxy', 'Logger', 'Options'];
+module.exports.$inject = ['config', 'Webdriver.Browser.Config', 'Browsermob', 'Selenium', 'Proxy', 'Logger', 'Options', 'EnvironmentService'];

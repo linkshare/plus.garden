@@ -16,10 +16,10 @@
 
     //init
     commander
-        .command('init')
-        .description('init structure')
-        .action(function () {
-            garden.get('CommandInit').run();
+        .command('init [dir]')
+        .description('init structure in current or specified dir')
+        .action(function (dir) {
+            garden.get('CommandInit').run(dir);
         });
 
     //webdriver control

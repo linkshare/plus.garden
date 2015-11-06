@@ -18,13 +18,16 @@
         'config.json',
         'parameters.json.dist',
         'container.js',
-        'garden.js'
+        'garden.js',
+        '.gitignore'
     ];
 
-    this.run = function () {
+    this.run = function (dir) {
 
         var srcDir = config.get('garden_dir');
         var distDir = config.get('root_dir');
+
+        distDir = dir || distDir;
 
         dirs.forEach(function (name) {
 
