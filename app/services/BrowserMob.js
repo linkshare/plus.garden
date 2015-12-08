@@ -84,7 +84,7 @@ Browsermob.prototype = {
 
                 fs.writeFileSync(this.lockFile, proxy.pid);
 
-                proxy.stderr.on('data', function (data) {
+                proxy.stdout.on('data', function (data) {
                     if (data.toString().indexOf('Started SelectChannelConnector') > -1) {
                         console.log('browsermob server started');
 
@@ -99,7 +99,7 @@ Browsermob.prototype = {
     spawnAsControledProcess: function (callback) {
         this.proxy = spawn('java', ['-jar', this.proxyPath, '-port', this.proxyPort], {stdio: 'pipe'});
 
-        this.proxy.stderr.on('data', function (data) {
+        this.proxy.stdout.on('data', function (data) {
             if (data.toString().indexOf('Started SelectChannelConnector') > -1) {
                 console.log('browsermob server started');
 
