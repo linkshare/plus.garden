@@ -15,6 +15,10 @@
         "proxy_port": 8888,
         "proxy_host": "localhost",
 
+        "proxy_remap_hosts": {
+            "localhost":"127.0.0.1"
+        },
+
         "keep_alive": true,
 
         "browser": "phantomjs",
