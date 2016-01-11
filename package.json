@@ -1,6 +1,6 @@
 {
   "name": "plus.garden",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "main": "garden.js",
   "license": "MIT",
   "repository": "linkshare/plus.garden",
@@ -26,7 +26,7 @@
   "dependencies": {
     "async": "~0.9.0",
     "browsermob-proxy": "1.0.8",
-    "browsermob-standalone": "2.1.3",
+    "browsermob-standalone": "2.1.4",
     "chai": "~1.9.1",
     "chainit": "~2.1.1",
     "commander": "2.1.0",
