@@ -2,7 +2,7 @@
  * @author Vladimir Polyakov
  * @author Slava Hatnuke
  * =================================================================================
- * Copyright (c) 2015 Rakuten Marketing
+ * Copyright (c) 2015-2016 Rakuten Marketing
  * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
  * ============================================================================== */
 
@@ -137,7 +137,7 @@ Browser.prototype = {
     },
 
     assertStatusByUrl: function (url, expectedStatus, next) {
-        this.logger.debug('assertStatusByUrl: ' + url + ' expectedStauts' + expectedStatus);
+        this.logger.debug('assertStatusByUrl: ' + url + ' expectedStatus' + expectedStatus);
         this.waitForStatusByUrl(url, function (status) {
             if (status == expectedStatus) {
                 next();
@@ -185,7 +185,9 @@ Browser.prototype = {
                     })
                 }, function (found) {
                     if (!found) {
-                      this.chai.assert(false, 'list: "' + cssSelector + '" should contains at least one element with: "' + expectedText + '"');
+                        this.chai.assert(false, 'list: "' + cssSelector +
+                            '" should contain at least one element with: "' + expectedText + '"'
+                        );
                     }
                     next();
                 }.bind(this));
@@ -201,7 +203,9 @@ Browser.prototype = {
                         if (text.indexOf(expectedText) > -1) {
                             callback();
                         } else {
-                            this.chai.assert(false, 'element: "' + cssSelector + '" should contains only "' + expectedText + '" but was found:' + text);
+                            this.chai.assert(false, 'element: "' + cssSelector +
+                                '" should contain only "' + expectedText + '" but was found: "' + text + '"'
+                            );
                         }
                     }.bind(this))
                 }.bind(this), next);
@@ -215,7 +219,9 @@ Browser.prototype = {
                 this.async.each(elements, function (element, callback) {
                     element.getText().then(function (text) {
                         if (text == expectedText) {
-                            this.chai.assert(false, 'element: "' + cssSelector + '" should not contains: "' + expectedText + '"');
+                            this.chai.assert(false, 
+                                'element: "' + cssSelector + '" should not contain: "' + expectedText + '"'
+                            );
                         } else {
                             callback();
                         }
@@ -239,7 +245,7 @@ Browser.prototype = {
                 }, function () {
                     var diff = this.jdiff.diff(expectedlist, givenList);
                     if (diff) {
-                        this.chai.assert(false, 'lists are not match \n' + this.colorize.colorize(diff));
+                        this.chai.assert(false, 'lists do not match \n' + this.colorize.colorize(diff));
                     }
                     next();
                 }.bind(this));
@@ -253,7 +259,7 @@ Browser.prototype = {
                 if (classAttribute.split(/\s+/).indexOf(className) > -1) {
                     next();
                 } else {
-                    this.chai.assert(false, 'element: "' + cssSelector + '" not present class: "' + className + '"');
+                    this.chai.assert(false, 'element: "' + cssSelector + '" class not present: "' + className + '"');
                 }
             }.bind(this));
         }.bind(this));
@@ -263,7 +269,7 @@ Browser.prototype = {
         this.waitForElementPresent(cssSelector).then(function () {
             this.getElement(cssSelector).getAttribute('class').then(function (classAttribute) {
                 if (classAttribute.split(/\s+/).indexOf(className) > -1) {
-                    this.chai.assert(false, 'element: "' + cssSelector + '" present class: "' + className + '"');
+                    this.chai.assert(false, 'element: "' + cssSelector + '" class present: "' + className + '"');
                 } else {
                     next();
                 }
@@ -277,7 +283,7 @@ Browser.prototype = {
                 if (expectedValue == value) {
                     next();
                 } else {
-                    this.chai.assert(false, 'given value: "' + value + '" not equals: "' + expectedValue + '"');
+                    this.chai.assert(false, 'given value: "' + value + '" does not equal: "' + expectedValue + '"');
                 }
             }.bind(this));
         }.bind(this));
@@ -288,7 +294,7 @@ Browser.prototype = {
             if (url.indexOf(text) > -1) {
                 next();
             } else {
-                this.chai.assert(false, "url should contains text: " + text);
+                this.chai.assert(false, "url should contain text: '" + text + '"');
             }
         }.bind(this));
     },
@@ -298,7 +304,7 @@ Browser.prototype = {
             if (url == expectedUrl) {
                 next();
             } else {
-                this.chai.assert(false, 'url given: "' + url + '" expected url: "' + expectedUrl + '"');
+                this.chai.assert(false, 'url given: "' + url + '" does not equal: "' + expectedUrl + '"');
             }
         }.bind(this));
     },
@@ -316,7 +322,7 @@ Browser.prototype = {
             if (value == expectedValue) {
                 next();
             } else {
-                this.chai.assert(false, "expected value: " + expectedValue + ", got: " + value);
+                this.chai.assert(false, "expected value: '" + expectedValue + "', got: '" + value + '"');
             }
         }.bind(this));
     },
@@ -326,7 +332,7 @@ Browser.prototype = {
             if (value.indexOf(text) > -1) {
                 next();
             } else {
-                this.chai.assert(false, "element: " + cssSelector + " should contains: " + text);
+                this.chai.assert(false, "element: '" + cssSelector + "' should contain: '" + text + '"');
             }
         }.bind(this));
     },
@@ -335,13 +341,14 @@ Browser.prototype = {
         this.driver.getCurrentUrl().then(function (url) {
             url = url.substr(0, url.indexOf('#')) || url;
             this.proxy.getStatusByUrl(url, function (err, givenStatus) {
-                this.logger.debug('assertStatus for current url: ' + url + ', expectedStauts: ' + expectedStatus);
-
+                this.logger.debug('assertStatus for current url: ' + url + ', expected status: ' + expectedStatus);
                 if (err) {
                     throw new Error(err);
                 }
-
-                this.chai.assert(expectedStatus == givenStatus, "expected status: " + expectedStatus + ', got: ' + givenStatus);
+                this.chai.assert(
+                    expectedStatus == givenStatus, 
+                    'expected status: ' + expectedStatus + ', got: ' + givenStatus
+                );
                 next();
             }.bind(this));
         }.bind(this));
@@ -365,7 +372,7 @@ Browser.prototype = {
                 if (!isDisplayed) {
                     next();
                 } else {
-                    this.chai.assert(false, 'element: "' + cssSelector + '" is visible');
+                    this.chai.assert(false, 'element: "' + cssSelector + '" is not hidden');
                 }
             }.bind(this));
         }.bind(this));
@@ -384,7 +391,10 @@ Browser.prototype = {
                 if (elements.length > expectedQty) {
                     next();
                 } else {
-                    this.chai.assert(false, 'elements count should be more then "' + expectedQty + '" but given: ' + elements.length);
+                    this.chai.assert(
+                        false, 
+                        'element count should be more than "' + expectedQty + '" but is: ' + elements.length
+                    );
                 }
             }.bind(this));
         }.bind(this));
@@ -396,7 +406,10 @@ Browser.prototype = {
                 if (elements.length < expectedQty) {
                     next();
                 } else {
-                    this.chai.assert(false, 'elements count should be less then "' + expectedQty + '" but given: ' + elements.length);
+                    this.chai.assert(
+                        false, 
+                        'element count should be less than "' + expectedQty + '" but is: ' + elements.length
+                    );
                 }
             }.bind(this));
         }.bind(this));
@@ -408,7 +421,10 @@ Browser.prototype = {
                 if (elements.length == expectedQty) {
                     next();
                 } else {
-                    this.chai.assert(false, 'elements count should be: "' + expectedQty + '" but given: ' + elements.length);
+                    this.chai.assert(
+                        false, 
+                        'element count should be: "' + expectedQty + '" but is: ' + elements.length
+                    );
                 }
             }.bind(this));
         }.bind(this));
