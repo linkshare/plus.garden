@@ -60,7 +60,7 @@ Proxy.prototype = {
                 var response = JSON.parse(resp);
                 var responseArray = response.log.entries.reverse();
                 responseArray.forEach(function (entire) {
-                    if (entire.request.url == url) {
+                    if (entire.request.url == url || entire.request.url == decodeURIComponent(url)) {
                         foundEntire = entire;
                         result = true;
                     }
@@ -84,7 +84,7 @@ Proxy.prototype = {
                 var response = JSON.parse(resp);
                 var responseArray = response.log.entries.reverse();
                 responseArray.forEach(function (entire) {
-                    if (entire.request.url == url) {
+                    if (entire.request.url == url || entire.request.url == decodeURIComponent(url)) {
                         foundEntire = entire;
                         result = true;
                     }
