@@ -76,23 +76,35 @@ Browsermob.prototype = {
         this.isRun(function (err, started) {
             if (started) {
                 return callback();
-            } else {
-                var proxy = spawn('java', ['-jar', this.proxyPath, '-port', this.proxyPort], {
-                    detached: true,
-                    stdio: 'pipe'
-                });
-
-                fs.writeFileSync(this.lockFile, proxy.pid);
-
-                proxy.stdout.on('data', function (data) {
-                    if (data.toString().indexOf('Started SelectChannelConnector') > -1) {
-                        console.log('browsermob server started');
-
-                        this.hasRun = true;
-                        callback();
-                    }
-                }.bind(this));
             }
+            var proxy = spawn('java', ['-jar', this.proxyPath, '-port', this.proxyPort], {
+                detached: true,
+                stdio: 'pipe'
+            });
+
+            fs.writeFileSync(this.lockFile, proxy.pid);
+
+            proxy.stdout.on('data', function (data) {
+                if (data.toString().indexOf('Started SelectChannelConnector') > -1) {
+                    console.log('browsermob server started');
+
+                    this.hasRun = true;
+                    callback();
+                }
+            }.bind(this));
+
+            proxy.stderr.on('data', function (data) {
+                var str = data.toString().trim();
+                if(str) {
+                    console.log("browsermob proxy stderr: " + str);
+                }
+            }.bind(this));
+
+            proxy.on('close', function(code) {
+                if(code !== -1) {
+                    console.log("browsermob proxy exited with error", code);
+                }
+            }.bind(this));
         }.bind(this));
     },
 
@@ -105,6 +117,19 @@ Browsermob.prototype = {
 
                 this.hasRun = true;
                 callback();
+            }
+        }.bind(this));
+
+        this.proxy.stderr.on('data', function (data) {
+            var str = data.toString().trim();
+            if(str) {
+                console.log("browsermob proxy stderr: " + str);
+            }
+        }.bind(this));
+
+        this.proxy.on('close', function(code) {
+            if(code !== -1) {
+                console.log("browsermob proxy exited with error", code);
             }
         }.bind(this));
     }
