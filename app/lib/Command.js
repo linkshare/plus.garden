@@ -6,10 +6,12 @@
  * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
  * ============================================================================== */
 
- var child_process = require('child_process');
+var child_process = require('child_process');
 var exec = child_process.exec;
 
 var Command = function (dir, env, replacement, commander) {
+
+    var utils = require('./Utils');
 
     this.replacement = replacement || {};
     this.env = env || 'test';
@@ -20,7 +22,7 @@ var Command = function (dir, env, replacement, commander) {
     }
 
     this.quote = function (name) {
-        return ('' + name).replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+        return utils.escape(name);
     }
 
     this.prepare = function (cmd) {

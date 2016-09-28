@@ -7,10 +7,13 @@
 
  var Command = function (config, commander) {
 
+    var utils = require('../lib/Utils');
     var CommandClass = require('../lib/Command');
 
+    var gardenBinPath = utils.escape(config.get('garden_dir') + "/node_modules/.bin/");
+
     var replacement = {
-        "./node_modules/.bin/": config.get('garden_dir') + "/node_modules/.bin/"
+        "./node_modules/.bin/": gardenBinPath
     };
 
     this.command = new CommandClass(
