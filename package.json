@@ -44,7 +44,7 @@
     "phantomjs": "1.9.16",
     "plus.application": "~1.0.7",
     "plus.garden.selenium-standalone": "2.46.0",
-    "request": "2.34.0",
+    "request": "2.74.0",
     "selenium-webdriver": "2.42.1",
     "sinon": "1.8.2",
     "sizzle": "~2.2.0",
