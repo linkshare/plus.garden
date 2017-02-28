@@ -19,7 +19,6 @@ var Browser = function (driver, $, logger, options) {
     this.fs = require('fs');
     this.jdiff = require('json-diff');
     this.colorize = require('json-diff/lib/colorize');
-    this.proxy = null;
     this.host = 'localhost';
     this.waitTimeout = 10000;
 
@@ -50,54 +49,6 @@ Browser.prototype = {
     visitExternal: function (url, next) {
         this.logger.debug('visitExternal: ' + url);
         this.driver.get(url).then(next);
-    },
-
-    waitForStatusByUrl: function (url, next) {
-        this.logger.debug('waitForStatusByUrl: ' + url);
-        var delay = 100;
-        var count = 0;
-        this.async.whilst(
-            function () {
-                return count < this.waitTimeout;
-            }.bind(this),
-            function (callback) {
-                this.proxy.getStatusByUrl(url, function (err, givenStatus) {
-                    if (!err) {
-                        next(givenStatus);
-                    } else {
-                        count = count + delay;
-                        setTimeout(callback, delay);
-                    }
-                });
-            }.bind(this),
-            function (err) {
-                next();
-            }
-        );
-    },
-
-    getMetaByUrl: function (url, next) {
-        this.logger.debug('getMetaByUrl: ' + url);
-        var delay = 100;
-        var count = 0;
-        this.async.whilst(
-            function () {
-                return count < this.waitTimeout;
-            }.bind(this),
-            function (callback) {
-                this.proxy.getMetaByUrl(url, function (err, meta) {
-                    if (!err) {
-                        next(meta);
-                    } else {
-                        count = count + delay;
-                        setTimeout(callback, delay);
-                    }
-                });
-            }.bind(this),
-            function (err) {
-                next();
-            }
-        );
     },
 
     waitForElementPresent: function (cssSelector, timeout, next) {
@@ -136,17 +87,6 @@ Browser.prototype = {
         }.bind(this));
     },
 
-    assertStatusByUrl: function (url, expectedStatus, next) {
-        this.logger.debug('assertStatusByUrl: ' + url + ' expectedStatus' + expectedStatus);
-        this.waitForStatusByUrl(url, function (status) {
-            if (status == expectedStatus) {
-                next();
-            } else {
-                this.chai.assert(false, 'status code should be: "' + expectedStatus + '" but given: ' + status);
-            }
-        });
-
-    },
 
     assertTitle: function (expectedTitle, next) {
         this.logger.debug('assertTitle: ' + expectedTitle);
@@ -334,23 +274,6 @@ Browser.prototype = {
             } else {
                 this.chai.assert(false, "element: '" + cssSelector + "' should contain: '" + text + '"');
             }
-        }.bind(this));
-    },
-
-    assertStatus: function (expectedStatus, next) {
-        this.driver.getCurrentUrl().then(function (url) {
-            url = url.substr(0, url.indexOf('#')) || url;
-            this.proxy.getStatusByUrl(url, function (err, givenStatus) {
-                this.logger.debug('assertStatus for current url: ' + url + ', expected status: ' + expectedStatus);
-                if (err) {
-                    throw new Error(err);
-                }
-                this.chai.assert(
-                    expectedStatus == givenStatus, 
-                    'expected status: ' + expectedStatus + ', got: ' + givenStatus
-                );
-                next();
-            }.bind(this));
         }.bind(this));
     },
 

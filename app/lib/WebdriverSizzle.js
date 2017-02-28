@@ -18,11 +18,8 @@ module.exports = function (driver, selenium) {
     };
 
     injectSizzleIfMissing = function (sizzleExists) {
-        var sizzleCode;
-        if (sizzleExists) {
-
-        } else {
-            sizzleCode = fs.readFileSync(path.join(__dirname, '../../node_modules/sizzle/dist', 'sizzle.min.js'));
+        if (! sizzleExists) {
+            var sizzleCode = fs.readFileSync(path.join(__dirname, '../../node_modules/sizzle/dist', 'sizzle.min.js'));
             return driver.executeScript("var module = {exports: {}};\n" + sizzleCode + "\nwindow.Sizzle = module.exports;").then(injectSelector);
         }
     };
@@ -38,7 +35,7 @@ module.exports = function (driver, selenium) {
                 return driver.findElement(selenium.By.js(function (selector) {
                     return (window.Sizzle(selector) || [])[0];
                 }, selector));
-            }).thenCatch(function (err) {
+            }).catch(function (err) {
                 throw new Error("Selector " + selector + " matches nothing");
             });
         };
@@ -52,7 +49,7 @@ module.exports = function (driver, selenium) {
                 return driver.findElements(selenium.By.js(function (selector) {
                     return window.Sizzle(selector) || [];
                 }, selector));
-            }).thenCatch(function (err) {
+            }).catch(function (err) {
                 throw new Error("Selector " + selector + " matches nothing");
             });
         };

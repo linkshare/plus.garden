@@ -22,22 +22,6 @@
             garden.get('CommandInit').run(dir);
         });
 
-    //webdriver control
-    commander
-        .command('webdriver.start')
-        .description('starting selenium server and proxy')
-        .action(function () {
-            garden.get('CommandWebDriver').start();
-        });
-
-    //webdriver control
-    commander
-        .command('webdriver.stop')
-        .description('stopping selenium server and proxy')
-        .action(function () {
-            garden.get('CommandWebDriver').stop();
-        });
-
     // fixtures
     commander
         .command('fixtures.load')
@@ -99,5 +83,5 @@
         .action(function () {
             garden.get('CommandCoverageRemove').run();
         });
-}
+};
 

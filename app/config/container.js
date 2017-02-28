@@ -25,16 +25,10 @@ module.exports = function (container) {
     container.register('CommandCoverageRemove', require('../services/Command/CommandCoverageRemove'));
     container.register('CommandInit', require('../services/Command/CommandInit'));
 
-    container.register('Browsermob', require('../services/BrowserMob'));
-    container.register('Selenium', require('../services/Selenium'));
-    container.register('Proxy', require('../services/Proxy'));
-    container.register('CommandWebDriver', require('../services/Command/CommandWebDriver'));
-
     container.register('Webdriver.Browser', require('../services/Webdriver.Browser'));
     container.register('Webdriver.Browser.Config', require('../services/Webdriver.Browser.Config'));
 
     container.register('LoggerInitializer', require('../services/LoggerInitializer'));
-    container.register('EnvironmentService', require('../services/EnvironmentService'));
 
-}
+};
 

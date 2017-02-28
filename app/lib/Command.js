@@ -37,8 +37,7 @@ var Command = function (dir, env, replacement, commander) {
     this.run = function (command, next) {
 
         var cmd = command;
-
-        var cmd = 'NODE_ENV=' + this.env + ' ' + this.prepareOptions() + cmd;
+        cmd = 'NODE_ENV=' + this.env + ' ' + this.prepareOptions() + cmd;
 
         var child = exec(this.prepare(cmd), {cwd: this.dir, maxBuffer: 50000*1024}, function (err) {
             if (err) return process.exit(err.code);

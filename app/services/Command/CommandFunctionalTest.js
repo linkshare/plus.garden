@@ -11,6 +11,8 @@
     var wait = require('wait.for');
     var request = require('request');
     var fs = require('fs');
+    var path = require('path');
+    var execSync = require('child_process').execSync;
 
     var coverage_url = config.get('host') + config.get('coverage_url');
 
@@ -33,7 +35,7 @@
 
         });
 
-    }
+    };
 
     this.reset = function () {
 
@@ -46,7 +48,7 @@
 
         }
 
-    }
+    };
 
     this.collect = function () {
 
@@ -56,7 +58,7 @@
             logger.info('done');
         }
 
-    }
+    };
 
     this.merge = function () {
 
@@ -66,26 +68,22 @@
             logger.info('done');
         }
 
-    }
+    };
 
     this.run = function (name) {
-
         this.reset();
 
-        var name = name ? name : 'features';
-
-        var cmd = ''
-
-        cmd += './node_modules/.bin/cucumber.js'
+        var name = name || 'features';
+        var npmBin = execSync('npm bin').toString().replace(/(\r\n|\n|\r)/gm, '');
+        var cmd = path.join(npmBin, 'cucumber-js');
 
         if (commander.tags) {
             cmd += ' --tags ' + commander.tags;
         }
 
         if (name) {
-
             var requireDir  = require('underscore')(name.replace('\\', '/').split('/')).first();
-            requireDir = commander.require ? commander.require : requireDir;
+            requireDir = commander.require || requireDir;
 
             cmd += ' --require ' + requireDir;
         }
@@ -96,7 +94,7 @@
 
         this.collect();
         this.merge();
-    }
+    };
 
     this.load = function () {
 
@@ -124,9 +122,9 @@
             });
         });
 
-    }
+    };
 
-}
+};
 
 module.exports = CommandFunctionalTest;
 module.exports.$inject = ['Command', 'config', 'Commander', 'Logger', 'CommandCoverageMerge'];

@@ -1,31 +1,24 @@
-var hooks = function () {
-
-    this.Before(function (callback) {
-        this.browserService.before(callback);
+var {defineSupportCode} = require('cucumber');
+defineSupportCode(function({After, Before}) {
+    Before(function () {
+        this.browserService.before();
     });
 
-    this.After(function (callback) {
+    After(function (scenarioResult, callback) {
         this.browserService.after(callback);
     });
 
-    this.Before("@fixtures.drop", function (callback) {
-        this.garden.wait.launchFiber(function () {
+    Before({tags: "@fixtures.drop"}, function (scenarioResult, callback) {
+        this.garden.wait.launchFiber(function (scenarioResult, callback) {
             this.garden.get('FixtureLoader').drop();
             callback();
         }.bind(this));
     });
 
-    this.Before("@fixtures.load", function (callback) {
-        this.garden.wait.launchFiber(function () {
+    Before({tags: "@fixtures.load"}, function (scenarioResult, callback) {
+        this.garden.wait.launchFiber(function (scenarioResult, callback) {
             this.garden.get('FixtureLoader').reload();
             callback();
         }.bind(this));
     });
-
-    this.Before("@locale.fr", function (callback) {
-        this.browserService.addHeaders({"Accept-Language": "fr"}, callback);
-    });
-
-};
-
-module.exports = hooks;
+});
