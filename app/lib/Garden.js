@@ -83,8 +83,5 @@ Garden.getDir = function () {
 }
 
 Garden.wait = require('wait.for');
-Garden.sinon = require('sinon');
-Garden.chai = require('chai');
-Garden.request = require('request');
 
 module.exports = Garden;

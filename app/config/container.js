@@ -15,15 +15,7 @@ module.exports = function (container) {
 
     container.register('Command', require('../services/Command'));
     container.register('CommanderInfo', require('../services/CommanderInfo'));
-
     container.register('CommandFunctionalTest', require('../services/Command/CommandFunctionalTest'));
-    container.register('CommandUnitTest', require('../services/Command/CommandUnitTest'));
-    container.register('LoadTest', require('../services/LoadTest'));
-    container.register('CommandLoadTest', require('../services/Command/CommandLoadTest'));
-
-    container.register('CommandCoverageMerge', require('../services/Command/CommandCoverageMerge'));
-    container.register('CommandCoverageRemove', require('../services/Command/CommandCoverageRemove'));
-    container.register('CommandInit', require('../services/Command/CommandInit'));
 
     container.register('LoggerInitializer', require('../services/LoggerInitializer'));
 

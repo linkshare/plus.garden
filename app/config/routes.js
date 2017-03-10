@@ -13,15 +13,6 @@
     // show info
     garden.get('CommanderInfo').printInput();
 
-
-    //init
-    commander
-        .command('init [dir]')
-        .description('init structure in current or specified dir')
-        .action(function (dir) {
-            garden.get('CommandInit').run(dir);
-        });
-
     // fixtures
     commander
         .command('fixtures.load')
@@ -38,9 +29,6 @@
         });
 
     // tests
-    commander.option('-c, --coverage', 'with coverage');
-    commander.option('-m, --merge', 'collect and merge coverage');
-    commander.option('-r, --reset', 'reset (contextual:coverage)');
     commander.option('-l, --list', 'show list of tests');
     commander.option('-t, --tags [name]', 'use tags. ex.: --tags @tag-name');
     commander.option('-p, --profile [name]', 'webdriver profile, ex: --profile remote');
@@ -55,33 +43,5 @@
             garden.get('CommandFunctionalTest').run(name);
         });
 
-    commander
-        .command('unit [name]')
-        .description('run unit test/tests')
-        .action(function (name) {
-            garden.get('CommandUnitTest').run(name);
-        });
-
-    commander
-        .command('load [name]')
-        .description('run load test/tests')
-        .action(function (name) {
-            garden.get('CommandLoadTest').run(name);
-        });
-
-    // coverage
-    commander
-        .command('coverage.merge [reporter]')
-        .description('merge all coverage. reporter is optional: [clover, cobertura, html]. default: lcov.')
-        .action(function (reporter) {
-            garden.get('CommandCoverageMerge').run(reporter);
-        });
-
-    commander
-        .command('coverage.remove')
-        .description('remove all coverage')
-        .action(function () {
-            garden.get('CommandCoverageRemove').run();
-        });
 };
 
