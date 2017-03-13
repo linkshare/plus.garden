@@ -25,10 +25,10 @@
   },
   "dependencies": {
     "commander": "^2.9.0",
-    "cucumber": "^2.0.0-rc.7",
+    "cucumber": "^2.0.0-rc.8",
     "fs-extra": "^2.0.0",
     "merge": "^1.2.0",
-    "plus.application": "~1.0.7",
+    "plus.application": "^1.1.14",
     "wait.for": "0.6.6",
     "winston": "2.3.1"
   }

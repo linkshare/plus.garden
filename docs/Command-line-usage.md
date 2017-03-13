@@ -39,16 +39,3 @@ just change browser for testing
 ```bash
 ./garden.js test -b chrome  (--browser)
 ```
-
-
-###remote
-before start test you should run selenium server on machine where browser is
-run on machine where browser is
-```bash
-./garden.js webdriver.start
-```
-
-right now run test with parameter (run on machine where tests suites are)
-```bash
-./garden.js test -p remote
-```

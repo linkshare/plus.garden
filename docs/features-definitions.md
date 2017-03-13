@@ -24,7 +24,7 @@ A Gherkin source file usually looks like this
 ### Demo feature definition
 
 ```javascript
-    this.Given(/^I login with username "([^"]*)" and password "([^"]*)"$/, function(username, password, callback) {
+    Given(/^I login with username "([^"]*)" and password "([^"]*)"$/, function(username, password, callback) {
         this.browser
             .visit('http://example.com')
             .assertStatus(200)
@@ -40,32 +40,7 @@ A Gherkin source file usually looks like this
 
 ### Special Tags
 
-*@fixtures.load*: Running fixture loaders before Scenario
-
-
-### Reuse steps
-there is great library for reusing cucumber steps https://www.npmjs.com/package/cucumber.usesteps
-
-As example we can reuse signin scenario with different users
-
-```gherkin
-# features/myFeature.feature
-Feature: Example feature
-
-  Scenario: I want to sign in as "user-1" with included steps
-    Given I sign in as "user-1" with email "user1@user1": use steps "features/signin.usefeature"
-
-  Scenario: I want to sign in as "user-2" with included steps
-    Given I sign in as "user-2" with email "user2@user2": use steps "features/signin.usefeature"
-```
-
-scenario for including (including scenarion can use only "" parameters)
-
-```gherkin
-#features/signin.usefeature
-
-  Scenario: I sign in as "user-1" with email "user1@user1"
-    Given I sign in as "user-1"
-    Then I should be signed in
-    Then I should see message "user1@user1"
-```
+  * *@fixtures.load*: Running fixture loaders before Scenario
+  * *@fixtures.drop*: Drop fixtures before Scenario
+  * *@webdriver.init*: Running browser session before Scenario
+  * *@webdriver.quit*: Closes all browser windows and safely ends the session after Scenario
