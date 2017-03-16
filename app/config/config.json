@@ -3,7 +3,9 @@
         "path": "logs/garden.log",
         "level": "info"
     },
-
+    "cucumber": {
+        "timeout": -1
+    },
     "command": {
         "functional_test": {
             "rerun": "@rerun.txt"

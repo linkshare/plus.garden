@@ -14,6 +14,16 @@ You can override some sections of this with your needs in **[your project]/confi
         "level": "info"
     },
 
+    "cucumber": {
+        "timeout": -1
+    },
+    
+    "command": {
+        "functional_test": {
+            "rerun": "@rerun.txt"
+        }
+    },
+
     "webdriver": {
 
         "server_host": "localhost",
@@ -25,9 +35,6 @@ You can override some sections of this with your needs in **[your project]/confi
         "screen_resolution":"1280x1024",
         "waitTimeout": 7000,
 
-        "profile": {
-            "default": {}
-        },
         "capabilities": {
             "phantomjs": {
                 "browserName": "phantomjs",
