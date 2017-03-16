@@ -44,6 +44,50 @@ cucumber-js
         setWorldConstructor(CustomWorld);
       });
    ```
+   
+  * Dropped support `@tags` before [`Background`](https://github.com/cucumber/cucumber/wiki/Background). If you want call you [tagged hooks](https://github.com/cucumber/cucumber-js/blob/master/docs/support_files/hooks.md#tagged-hooks) before each `Scenario` and `ScenarioOutline`, write `@tags` before `Feature`:
+    
+    Before:
+    
+    ```gherkin
+    Feature: Multiple site support
+      As a Mephisto site owner
+      I want to host blogs for different people
+      In order to make gigantic piles of money
+
+      @tagged_hook @tagged_hook2
+      Background:
+        Given a global administrator named "Greg"
+        And a blog named "Greg's anti-tax rants"
+        And a customer named "Dr. Bill"
+        And a blog named "Expensive Therapy" owned by "Dr. Bill"
+
+      Scenario: Dr. Bill posts to his own blog
+        Given I am logged in as Dr. Bill
+        When I try to post to "Expensive Therapy"
+        Then I should see "Your article was published.
+    ```
+    
+    After:
+    
+    ```gherkin
+    @tagged_hook @tagged_hook2
+    Feature: Multiple site support
+      As a Mephisto site owner
+      I want to host blogs for different people
+      In order to make gigantic piles of money
+
+      Background:
+        Given a global administrator named "Greg"
+        And a blog named "Greg's anti-tax rants"
+        And a customer named "Dr. Bill"
+        And a blog named "Expensive Therapy" owned by "Dr. Bill"
+
+      Scenario: Dr. Bill posts to his own blog
+        Given I am logged in as Dr. Bill
+        When I try to post to "Expensive Therapy"
+        Then I should see "Your article was published.
+    ```
 
 cucumber.usesteps
 -----------
