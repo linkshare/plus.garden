@@ -2,5 +2,11 @@
     "logger": {
         "path": "logs/garden.log",
         "level": "info"
+    },
+
+    "command": {
+        "functional_test": {
+            "rerun": "@rerun.txt"
+        }
     }
 }
