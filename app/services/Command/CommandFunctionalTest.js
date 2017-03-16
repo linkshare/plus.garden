@@ -47,8 +47,7 @@ var CommandFunctionalTest = function (command, config, commander, logger) {
         return cmd;
     }
 
-    var appendTestLocation = function (cmd, name, requireDir) {
-        name = (defaultTestDir === name) ? requireDir : name;
+    var appendTestLocation = function (cmd, name) {
         cmd += ' ' + name;
 
         return cmd;
@@ -70,7 +69,7 @@ var CommandFunctionalTest = function (command, config, commander, logger) {
             }
 
             cmd = appendOptionFormat(cmd);
-            cmd = appendTestLocation(cmd, name, requireDir);
+            cmd = appendTestLocation(cmd, name);
         }
 
         cmd = appendOptionRequire(cmd, requireDir);
