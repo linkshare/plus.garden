@@ -22,9 +22,8 @@ var CommandFunctionalTest = function (command, config, commander, logger) {
         }
 
         if (name) {
-            var requireDir = commander.require || name;
-
-            cmd += ' ' + requireDir;
+            var requireDir = commander.require || path.dirname(name).split(path.sep).shift();
+            cmd += ' --require ' + requireDir;
         }
 
         cmd += ' --format pretty ' + name;
