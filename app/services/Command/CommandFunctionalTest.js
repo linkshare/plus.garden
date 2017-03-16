@@ -16,8 +16,8 @@ var CommandFunctionalTest = function (command, config, commander, logger) {
     var defaultRerunFile = config.get("command:functional_test:rerun");
 
     var prepareRequireDir = function (name) {
-        var pathDir = path.dirname(name);
-        var requireDir = (pathDir.split(path.sep) > 1) ? pathDir.split(path.sep).shift() : defaultTestDir;
+        var rootDir = name.split(path.sep).shift()
+        var requireDir = rootDir || defaultTestDir;
 
         return requireDir;
     }
