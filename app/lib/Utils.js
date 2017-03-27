@@ -7,9 +7,13 @@
  * ============================================================================== */
 
 var utils = {
-  escape: function(str) {
-    return str.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
-  }
+    escape: function(str) {
+        return str.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+    },
+
+    isObject: function(value) {
+        return typeof value === 'function' || typeof value === 'object' && !!value;
+    }
 };
 
 module.exports = utils;

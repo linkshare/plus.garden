@@ -1,18 +1,17 @@
-Plus.garden!
-===================
-[API Reference](./docs/API-reference.md) |
+# Plus.garden! [![NPM version][npm-image]][npm-url] [![Dependency Status][daviddm-image]][daviddm-url]
+[API Reference](https://github.com/Dsazz/plus.garden.webdriver/edit/master/docs/API-reference.md) |
 [CLI](./docs/Command-line-usage.md) |
-[CSS Selectors](./docs/css-selectors.md) |
+[CSS Selectors](https://github.com/Dsazz/plus.garden.webdriver/blob/master/docs/css-selectors.md) |
 [Features and Definitions](./docs/features-definitions.md) |
 [Config](./docs/configuration.md) | [Modules](./docs/modules.md)
 
 Garden is a BDD testing framework for browser based apps and websites.
 
-It's built on Node.js, cucumber.js, Selenium WebDriver API.
+It's built on Node.js, Сucumber.js, Selenium WebDriver API.
 
 ----------
 
-> ###Main Features
+> ### Main Features
 > - Simple API to manage browser (WebDriver)
 > - Using CSS3 selectors to interact with DOM
 > - All network interactions data are accessible within the tests (headers, body, size etc)
@@ -20,98 +19,90 @@ It's built on Node.js, cucumber.js, Selenium WebDriver API.
 > - Head and headless browser testing (phantom.js, chrome, firefox)
 
 ## Requirements
-- `node.js`, `java`
-- `phantomjs` optional, but uses by default
+- `node.js`
 
 ## Getting started
 
-- `sudo npm install --global plus.garden` # install plus garden
-- `plus.garden init xxx-project` # init garden structure
-- `cd xxx-project` # go inside
-- `plus.garden test` # run smoke/healthy tests, it executes next scenario:
+1. Make a new directory, and `cd` into it:
+   ```
+   mkdir my-new-project && cd $_
+   ```
 
-```gherkin
-  Scenario: I want to see good health
-    Given  I am on external host "https://twitter.com/"
-    Then   status code should be 200
-    Then   take screenshot
-```
+2. Setup garden environment by [generator-garden](https://github.com/Dsazz/generator-garden/)
+   ```bash
+   npm install -g yo generator-garden
+   ```
 
+3. Then generate your new project:
+   ```bash
+   yo garden
+   ```
 
-### Local dependency way
+4. Run first test
+> NOTE: If you use [`plus.garden.webdriver`](https://github.com/Dsazz/plus.garden.webdriver), please start [Selenium](http://www.seleniumhq.org/) server first.
+   ```
+   node garden.js test 
+   ```
 
-Make a new directory, and `cd` into it:
-```
-mkdir my-new-project && cd $_
-```
-
-Run `npm init` and go through hints
-```
-npm init
-```
-
-Install garden as a dependency
-```
-npm install plus.garden --save
-```
-
-Init directory structure
-```
-node node_modules/plus.garden/garden.js init
-```
-
-run first test
-```
-node garden.js test
-```
+   It execute next scenario
+   ```gherkin
+     Scenario: I want to see good health
+       Given  I am on external host "https://twitter.com/"
+       Then   status code should be 200
+       Then   take screenshot
+   ```
 
 ## Usage
 
-Garden generates the simplest scenario by default:
+[Generator of garden](https://github.com/Dsazz/generator-garden/) generates the simplest scenario by default:
 
 **[your folder]/features/Health.feature**
 ```gherkin
- Scenario: I want to see good health
-   Given  I am on external host "https://twitter.com/"
-   Then   status code should be 200
-   Then   take screenshot
+@webdriver.init @webdriver.quit
+Feature: Health feature
+
+  @health
+  Scenario: I want to see good health
+    Given  I am on external hosts "https://twitter.com/" with element
+    Then   take screenshot
 ```
 
 with step defenitions that cover this, it looks like:
 
 **[your folder]/features/step_definitions/common.js**
 ```javascript
-    this.Given(/^I am on "(.+)"/, function (url, callback) {
+var {defineSupportCode} = require('cucumber');
+defineSupportCode(function({ Given, Then }) {
+    Given(/^I am on "(.+)"/, function (url, callback) {
         this.browser.visit(url).then(callback);
     });
 
-    this.Given(/^I am on external host "(.+)"/, function (url, callback) {
+    Given(/^I am on external host "(.+)"/, function (url, callback) {
         this.browser.visitExternal(url).then(callback);
     });
 
-    this.Given(/^I am on homepage$/, function (callback) {
+    Given(/^I am on homepage$/, function (callback) {
         this.browser.visit('/').then(callback);
     });
 
-    this.Given(/^I should be on "([^"]*)" page$/, function(expectedTitle, callback) {
+    Given(/^I should be on "([^"]*)" page$/, function(expectedTitle, callback) {
         this.browser.assertTitle(expectedTitle).then(callback);
     });
 
-    this.Then(/^status code should be (\d+)$/, function(statuscode, callback) {
-        this.browser.assertStatus(statuscode).then(callback);
+    Then(/^take screenshot$/, function (callback) {
+        this.browser.saveScreenshot('.screen.png').then(callback);
     });
-
-    this.Then(/^take screenshot$/, function (callback) {
-        this.browser.saveScreenshot('.screen.png').then(callback)
-    });
+});
 ```
 
-Full example of this you can find in `features` folder:
-- `features/Health.feature` # feature file
-- `features/step_definitions/common.js` # javascrip support 
+Full example of this you can find in `features` folder of 
+[Generator of garden](https://github.com/Dsazz/generator-garden/):
+- [features/Health.feature](https://github.com/Dsazz/generator-garden/blob/master/generators/app/templates/features/Health.feature) # feature file
+- [features/step_definitions/common.js](https://github.com/Dsazz/generator-garden/blob/master/generators/app/templates/features/step_definitions/common.js) # javascript support 
 
-More details about [features and definitions](./docs/features-definitions.md)
-and [API Reference you can find here](./docs/API-reference.md)
+  * More details about [features and definitions](./docs/features-definitions.md)
+  * [Webdriver Module you can find here](https://github.com/Dsazz/plus.garden.webdriver)
+  * [API Reference you can find here](./docs/API-reference.md)
 
 ### Fixtures
 Usually we need fixtures in our applications to have some sandbox.
@@ -164,7 +155,7 @@ It looks like this one:
            """
 ```
 
-* [API tester you can find here](https://github.com/linkshare/plus.garden.api)
+  * [API tester you can find here](https://github.com/linkshare/plus.garden.api)
 
 ### Modules
 Full list of modules we will publish [here (Modules)](./docs/modules.md)
@@ -172,3 +163,7 @@ Full list of modules we will publish [here (Modules)](./docs/modules.md)
 ## Be Happy!
 And cover you stuff with tests!
 
+[npm-image]: https://badge.fury.io/js/plus.garden.svg
+[npm-url]: https://npmjs.org/package/plus.garden
+[daviddm-image]: https://david-dm.org/Dsazz/plus.garden.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/Dsazz/plus.garden

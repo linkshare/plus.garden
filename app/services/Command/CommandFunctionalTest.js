@@ -6,127 +6,78 @@
  * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
  * ============================================================================== */
 
- var CommandFunctionalTest = function (command, config, commander, logger, commandCoverageMerge) {
+var CommandFunctionalTest = function (command, config, commander, logger) {
 
     var wait = require('wait.for');
-    var request = require('request');
-    var fs = require('fs');
+    var path = require('path');
+    var execSync = require('child_process').execSync;
 
-    var coverage_url = config.get('host') + config.get('coverage_url');
+    var defaultTestDir = commander.require || 'features';
+    var defaultRerunFile = config.get("command:functional_test:rerun");
 
-    this.request = function (path, done) {
+    var prepareRequireDir = function (name) {
+        var rootDir = name.split(path.sep).shift()
+        var requireDir = rootDir || defaultTestDir;
 
-        var url = coverage_url + path;
-
-        logger.info('Call `%s`', url);
-
-        request(url, function (error, response, body) {
-
-            if (error) return done(error);
-
-            if (response.statusCode == 200) {
-                done(null, body);
-            }
-            else {
-                done(new Error('Could call URL: ' + url));
-            }
-
-        });
-
+        return requireDir;
     }
 
-    this.reset = function () {
+    var appendOptionRerun = function (cmd) {
+        var rerunFile = true === commander.rerun ? defaultRerunFile : commander.rerun;
+        cmd += ' ' + rerunFile;
 
-        if (commander.coverage && commander.reset) {
-
-            logger.info('Start to reset web coverage..');
-
-            wait.forMethod(this, 'request', '/reset');
-            logger.info('Web coverage was reset');
-
-        }
-
+        return cmd;
     }
 
-    this.collect = function () {
+    var appendOptionTags = function (cmd) {
+        cmd += ' --tags ' + commander.tags;
 
-        if (commander.coverage) {
-            logger.info('Collecting coverage..');
-            this.load();
-            logger.info('done');
-        }
-
+        return cmd;
     }
 
-    this.merge = function () {
+    var appendOptionRequire = function (cmd, requireDir) {
+        cmd += ' --require ' + requireDir;
 
-        if (commander.merge) {
-            logger.info('Merging coverage..');
-            commandCoverageMerge.run();
-            logger.info('done');
-        }
+        return cmd;
+    }
 
+    var appendOptionFormat = function (cmd) {
+        cmd += commander.format ? (' --format ' + commander.format) : (' --format rerun:' + defaultRerunFile);
+
+        return cmd;
+    }
+
+    var appendTestLocation = function (cmd, name) {
+        cmd += ' ' + name;
+
+        return cmd;
     }
 
     this.run = function (name) {
+        name = name || defaultTestDir;
 
-        this.reset();
+        var npmBin = execSync('npm bin').toString().replace(/(\r\n|\n|\r)/gm, '');
+        var cmd = path.join(npmBin, 'cucumber-js');
+        var requireDir = prepareRequireDir(name);
 
-        var name = name ? name : 'features';
+        if (commander.rerun) {
+            cmd = appendOptionRerun(cmd);
+        } else {
 
-        var cmd = ''
+            if (commander.tags) {
+                cmd = appendOptionTags(cmd);
+            }
 
-        cmd += './node_modules/.bin/cucumber.js'
-
-        if (commander.tags) {
-            cmd += ' --tags ' + commander.tags;
+            cmd = appendOptionFormat(cmd);
+            cmd = appendTestLocation(cmd, name);
         }
 
-        if (name) {
-
-            var requireDir  = require('underscore')(name.replace('\\', '/').split('/')).first();
-            requireDir = commander.require ? commander.require : requireDir;
-
-            cmd += ' --require ' + requireDir;
-        }
-
-        cmd += ' --format pretty ' + name;
+        cmd = appendOptionRequire(cmd, requireDir);
 
         wait.forMethod(command, 'run', cmd);
+    };
 
-        this.collect();
-        this.merge();
-    }
-
-    this.load = function () {
-
-        logger.info('Loading coverage ...');
-        var data = wait.forMethod(this, 'request', '/object');
-
-        var coverageDir = config.get('root_dir') + '/coverage';
-
-        // make dir if not exist
-        if (!fs.existsSync(coverageDir + '/test')) {
-            fs.mkdirSync(coverageDir + '/test');
-        }
-
-        // save coverage
-        logger.info('Save coverage');
-        fs.writeFileSync(coverageDir + '/test/coverage.json', data);
-
-        logger.info('Generate coverage report');
-
-        // generate coverage
-        wait.for(function (done) {
-            wait.launchFiber(function () {
-                wait.forMethod(command, 'run', './node_modules/.bin/istanbul report --root=./coverage/test --dir=./coverage/test');
-                done();
-            });
-        });
-
-    }
-
-}
+};
 
 module.exports = CommandFunctionalTest;
-module.exports.$inject = ['Command', 'config', 'Commander', 'Logger', 'CommandCoverageMerge'];
+module.exports.$inject = ['Command', 'config', 'Commander', 'Logger'];

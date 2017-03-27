@@ -14,34 +14,27 @@ You can override some sections of this with your needs in **[your project]/confi
         "level": "info"
     },
 
+    "cucumber": {
+        "timeout": -1
+    },
+    
+    "command": {
+        "functional_test": {
+            "rerun": "@rerun.txt"
+        }
+    },
+
     "webdriver": {
 
         "server_host": "localhost",
         "server_port": 4444,
 
-        "proxy_port": 8888,
-        "proxy_host": "localhost",
-
-        "proxy_remap_hosts": {
-            "localhost":"127.0.0.1"
-        },
-
-        "keep_alive": true,
-
-        "browser": "phantomjs",
+        "browser": "chrome",
         "profile_name": "default",
 
         "screen_resolution":"1280x1024",
         "waitTimeout": 7000,
 
-        "profile": {
-            "default": {},
-            "remote": {
-                "browser": "chrome",
-                "server_host": "192.168.80.1",
-                "proxy_host": "192.168.80.101"
-            }
-        },
         "capabilities": {
             "phantomjs": {
                 "browserName": "phantomjs",
@@ -60,18 +53,25 @@ You can override some sections of this with your needs in **[your project]/confi
         }
     },
 
-    "load": {
-        "config": {
-            "host": "http://localhost:3010"
-        },
-        "tests": {
-            "transactions": {
-                "endpoint": "/posts",
-                "concurrency": 10,
-                "requests": 1000,
-                "duration": 20000
-            }
-        }
+    "api": {
+        "host": "http://google.com"
+    },
+
+    "fixtures-mongo": {
+        "uri": "mongodb://user:password@localhost:27017/dbname",
+        "fixtures": "fixtures/mongo"
+    },
+
+    "fixtures-mysql": {
+        "uri": "mysql://user@localhost:3306/dbname",
+        "models": "fixtures/mysql/models",
+        "fixtures": "fixtures/mysql"
+    },
+
+    "fixtures-docker-compose": {
+        "compose": "fixtures/docker-compose/docker-compose.yml",
+        "autoSudo": true,
+        "sudo": false
     }
 }
 ```

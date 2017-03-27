@@ -37,8 +37,7 @@ var Command = function (dir, env, replacement, commander) {
     this.run = function (command, next) {
 
         var cmd = command;
-
-        var cmd = 'NODE_ENV=' + this.env + ' ' + this.prepareOptions() + cmd;
+        cmd = 'NODE_ENV=' + this.env + ' ' + this.prepareOptions() + cmd;
 
         var child = exec(this.prepare(cmd), {cwd: this.dir, maxBuffer: 50000*1024}, function (err) {
             if (err) return process.exit(err.code);
@@ -53,16 +52,14 @@ var Command = function (dir, env, replacement, commander) {
 
     this.prepareOptions = function () {
         var options = '';
-        var _ = require('underscore');
-        _(commander).each(function (value, name) {
-                if (!_.isObject(value)) {
-                    options += ' NODE_CONFIG__GARDEN_CLI__'+ name +'='+ value;
-                }
+        Object.keys(commander).map(function(name, index) {
+            var value = commander[name];
+            if (false === utils.isObject(value)) {
+                options += ' NODE_CONFIG__GARDEN_CLI__'+ name +'='+ value;
             }
-        );
-        return options +' ';
+        });
+        return options + ' ';
     }
-
 
 };
 
