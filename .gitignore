@@ -11,3 +11,4 @@
 .tern-project
 .DS_Store
 app/.npmignore
+.tern-port
