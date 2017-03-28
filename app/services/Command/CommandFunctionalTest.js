@@ -68,11 +68,11 @@ var CommandFunctionalTest = function (command, config, commander, logger) {
                 cmd = appendOptionTags(cmd);
             }
 
-            cmd = appendOptionFormat(cmd);
             cmd = appendTestLocation(cmd, name);
         }
 
         cmd = appendOptionRequire(cmd, requireDir);
+        cmd = appendOptionFormat(cmd);
 
         wait.forMethod(command, 'run', cmd);
     };
